@@ -117,7 +117,7 @@ Every game must define `window.ClawmachineGame` with exactly **6 required method
 ### GameState Interface
 ```typescript
 interface GameState {
-  score: number;
+  score: number;    // Must be a non-negative integer. The platform rounds scores before leaderboard submission.
   gameOver: boolean;
   [key: string]: any; // Game-specific state
 }

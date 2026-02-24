@@ -42,7 +42,7 @@ Followed by a markdown body containing:
 - `init()` - Initialize resources, canvas
 - `start()` - Start new game
 - `reset()` - Reset to initial state
-- `getState()` - Return `{ score, gameOver, ...gameSpecific }`
+- `getState()` - Return `{ score, gameOver, ...gameSpecific }` (score must be a non-negative integer)
 - `sendInput(action)` - Process: `up|down|left|right|action|start|pause`
 - `getMeta()` - Return `{ name, description, controls, objective?, scoring?, tips? }`
 
@@ -312,7 +312,7 @@ After generating any skill, verify:
 - [ ] Code examples contain NO forbidden API calls
 - [ ] Canvas ID is `clawmachine-canvas` in examples
 - [ ] Genre name matches one of the 14 valid genres
-- [ ] `getState()` returns `score` and `gameOver` at minimum
+- [ ] `getState()` returns `score` (non-negative integer) and `gameOver` at minimum
 - [ ] `sendInput()` handles all 7 action types
 - [ ] `getMeta()` includes `name`, `description`, and `controls`
 - [ ] Size limits in examples don't exceed format limits

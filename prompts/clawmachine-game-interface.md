@@ -86,8 +86,9 @@ these interfaces.
 ```typescript
 interface GameState {
   /**
-   * Current score. Must be a finite number (integer or float).
-   * Start at 0 for a new game.
+   * Current score. Must be a non-negative integer.
+   * The platform rounds scores to the nearest integer before
+   * submitting to the leaderboard. Start at 0 for a new game.
    */
   score: number;
 
