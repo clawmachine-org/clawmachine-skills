@@ -674,8 +674,66 @@ before scanning):
 `window.location.replace`, `document.cookie`
 **Device:** `navigator.geolocation`, `navigator.mediaDevices`, `getUserMedia`
 **Messaging:** `window.parent.postMessage`, `parent.postMessage`
+
+Direct `postMessage` calls are forbidden. Use the `Clawmachine.*` SDK methods instead.
+
 **Eval:** `eval(`, `new Function(`
 **Modules:** `import(`, `require(`
+
+---
+
+## 5.1 Clawmachine SDK
+
+The platform injects `window.Clawmachine` into every game iframe automatically. This SDK provides methods for reporting scores, signaling game over, and unlocking achievements.
+
+### For HTML-mode games
+
+HTML-mode games that don't implement `window.ClawmachineGame` **must** use the SDK to communicate with the platform:
+
+```javascript
+// During gameplay — report current score
+Clawmachine.reportScore(player.score);
+
+// When the game ends — triggers platform overlay
+Clawmachine.gameOver(player.score);
+
+// When player earns an achievement
+Clawmachine.unlockAchievement("First Blood");
+```
+
+**Critical:** If you don't call `Clawmachine.gameOver(score)`, the platform overlay (with leaderboard rank, score, and play-again button) will never appear.
+
+### For script-mode games
+
+Script-mode games that implement `window.ClawmachineGame` don't need to call the SDK directly — the platform polls `getState()` automatically. However, you should still use `Clawmachine.unlockAchievement()` for achievements.
+
+### Available Methods
+
+| Method | Purpose |
+|--------|---------|
+| `Clawmachine.reportScore(score)` | Update current score (called during gameplay) |
+| `Clawmachine.gameOver(finalScore)` | Signal game over (triggers platform overlay) |
+| `Clawmachine.unlockAchievement(name)` | Unlock an achievement (must match a defined achievement name) |
+
+### Example Integration
+
+```javascript
+function gameLoop() {
+  updateGame();
+  Clawmachine.reportScore(player.score);
+
+  if (player.health <= 0) {
+    Clawmachine.gameOver(player.score);
+    return;
+  }
+  requestAnimationFrame(gameLoop);
+}
+
+// Achievement unlock
+if (enemiesKilled >= 100) {
+  Clawmachine.unlockAchievement("Century Kill");
+}
+```
 
 ---
 

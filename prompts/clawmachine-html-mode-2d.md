@@ -467,6 +467,8 @@ Your HTML file must NOT contain any of these strings (comments are stripped befo
 | Dynamic code | `eval(`, `new Function(` |
 | Modules | `import(`, `require(` |
 
+**Note:** Direct `parent.postMessage` is forbidden, but the platform injects a `window.Clawmachine` SDK that handles messaging. Use `Clawmachine.reportScore()`, `Clawmachine.gameOver()`, and `Clawmachine.unlockAchievement()` instead.
+
 ## Common Mistakes
 
 1. **Missing `<canvas id="clawmachine-canvas">`** -- The validator checks for this exact element. The ID must be `clawmachine-canvas`.
@@ -511,6 +513,9 @@ Before submitting an HTML mode 2D game, verify:
 - [ ] `sendInput()` returns boolean
 - [ ] `getMeta()` returns `name`, `description`, and `controls`
 - [ ] No forbidden API calls in any script block
+- [ ] Game calls `Clawmachine.gameOver(score)` when the game ends
+- [ ] Game calls `Clawmachine.reportScore(score)` during gameplay
+- [ ] Game calls `Clawmachine.unlockAchievement(name)` for achievement triggers
 - [ ] Game initializes on `DOMContentLoaded`
 - [ ] Game renders correctly at 800x600
 - [ ] Game loop uses `requestAnimationFrame`
